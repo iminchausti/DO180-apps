@@ -1,4 +1,4 @@
-FROM ubi8/nodejs-14 as builder
+FROM registry.redhat.io/ubi8/nodejs-14 as builder
 WORKDIR /usr/src/app
 COPY package.json package-lock.json ./
 RUN npm install
