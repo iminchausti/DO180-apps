@@ -1,10 +1,10 @@
 FROM registry.redhat.io/ubi8/nodejs-14 as builder
-RUN ls -la /home/node
-RUN ls -la /usr/src/app
 USER node
 ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
 ENV PATH=$PATH:/home/node/.npm-global/bin
 WORKDIR /home/node
+RUN ls -la /home/node
+RUN ls -la /usr/src/app
 COPY --chown=node:node package.json package-lock.json ./
 RUN npm install --only=prod
 COPY --chown=node:node . ./
