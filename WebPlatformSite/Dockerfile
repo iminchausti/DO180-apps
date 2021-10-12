@@ -1,16 +1,17 @@
 FROM registry.redhat.io/ubi8/nodejs-14 as builder
-USER node
+#USER node
 ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
 ENV PATH=$PATH:/home/node/.npm-global/bin
-WORKDIR /home/node
+WORKDIR /usr/src/app
 RUN ls -la /usr/src/app
-COPY --chown=node:node package.json package-lock.json ./
+RUN ls -la /home/node
+COPY package.json package-lock.json ./
 RUN npm install --only=prod
-COPY --chown=node:node . ./
+COPY . ./
 RUN npm run build
 
 FROM bitnami/nginx:latest
-COPY --from=builder /home/node/build /app
+COPY --from=builder /usr/src/app /app
 EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]
 
